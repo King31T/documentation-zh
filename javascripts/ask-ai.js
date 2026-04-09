@@ -217,13 +217,27 @@
 
     var aiMsg = document.createElement("div");
     aiMsg.className = "ask-ai-msg ask-ai-msg-ai";
+    aiMsg.innerHTML =
+      '<span class="ask-ai-thinking">' +
+      '<span class="ask-ai-thinking-text">Thinking</span>' +
+      '<span class="ask-ai-thinking-dots">' +
+      '<span class="ask-ai-dot"></span>' +
+      '<span class="ask-ai-dot"></span>' +
+      '<span class="ask-ai-dot"></span>' +
+      '</span></span>';
     messagesEl.appendChild(aiMsg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
 
     var fullText = "";
+    var firstToken = true;
 
     sendChat(
       question,
       function onToken(token) {
+        if (firstToken) {
+          aiMsg.innerHTML = "";
+          firstToken = false;
+        }
         fullText += token;
         aiMsg.innerHTML = renderMarkdown(fullText);
         messagesEl.scrollTop = messagesEl.scrollHeight;
