@@ -201,6 +201,52 @@
   background: #f9f9f9;
 }
 
+/* ========== Thinking 动画 ========== */
+.ask-ai-thinking {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.ask-ai-thinking-text {
+  font-size: 13px;
+  color: #888;
+}
+
+.ask-ai-thinking-dots {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.ask-ai-dot {
+  width: 5px;
+  height: 5px;
+  background: #aaa;
+  border-radius: 50%;
+  animation: ask-ai-bounce 1.2s infinite ease-in-out;
+}
+
+.ask-ai-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ask-ai-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes ask-ai-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
 /* ========== 输入区域 ========== */
 .ask-ai-input-area {
   display: flex;
