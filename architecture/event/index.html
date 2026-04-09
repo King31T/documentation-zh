@@ -50,12 +50,17 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/ask-ai.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
+    
+      <meta name="ask-ai-api" content="https://flauntingly-apt-cathryn.ngrok-free.dev/api">
+      <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
   </head>
   
@@ -2083,12 +2088,14 @@ export PATH=$PATH:$M2_HOME/bin
 mvn --version
 mvn package
 </code></pre></div>
-<p>命令执行成功后，将在 <code>tron-eventquery/target</code> 目录下生成 JAR 包，并在 <code>tron-eventquery/</code>目录下生成配置文件<code>config.conf</code>。配置文件内容示例如下：</p>
-<div class="highlight"><pre><span></span><code>mongo.host=IP
+<p>命令执行成功后，将在 <code>tron-eventquery/target</code> 目录下生成 JAR 包，并在 <code>tron-eventquery/</code>目录下生成配置文件<code>config.conf</code>。</p>
+<p><strong>注意：下述配置仅供参考。在生产环境中，请务必为 MongoDB 设置强密码，不要使用硬编码的明文密码。</strong></p>
+<p>配置文件内容示例如下：</p>
+<div class="highlight"><pre><span></span><code>mongo.host=127.0.0.1
 mongo.port=27017
 mongo.dbname=eventlog
-mongo.username=tron
-mongo.password=123456
+mongo.username=${MONGO_USERNAME}  # 示例: tron
+mongo.password=${MONGO_PASSWORD}  # 生产环境中务必使用强密码
 mongo.connectionsPerHost=8
 mongo.threadsAllowedToBlockForConnectionMultiplier=4
 </code></pre></div>
@@ -2176,7 +2183,7 @@ db.block.find()
 </code></pre></div>
 然后，编写订阅者代码：
 <div class="highlight"><pre><span></span><code>// subscriber.js
-var zmq = require(&quot;zeromq&quot;),
+var zmq = require(&quot;zeromq&quot;);
 var sock = zmq.socket(&quot;sub&quot;);
 
 sock.connect(&quot;tcp://127.0.0.1:5555&quot;);
@@ -2288,59 +2295,19 @@ received a message related to: blockTrigger, containing message: {&quot;timeStam
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.sections", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-  
       <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
       
         <script src="../../javascripts/toc.js"></script>
       
         <script src="../../javascripts/nav-toc.js"></script>
       
+        <script src="../../javascripts/ask-ai.js"></script>
+      
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       
     
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/biel-search/dist/biel-search/biel-search.css">
-  <script type="module" src="https://cdn.jsdelivr.net/npm/biel-search/dist/biel-search/biel-search.esm.js"></script>
-
-  <biel-button
-      project="73xaamkcsb"
-      header-title="Biel.ai Chatbot"
-      button-position="bottom-right"
-      modal-position="sidebar-right"
-      button-style="dark">
-      Ask AI
-  </biel-button>
-
-  <script>
-    /**
-     * Forced Interceptor: Prevents keyboard events from bubbling up to MkDocs.
-     * This fixes the issue where typing keys like 's' or 'n' in the chatbot 
-     * triggers MkDocs' native search or navigation shortcuts.
-     */
-    window.addEventListener('keydown', function(e) {
-      // 1. Get the currently focused element (compatible with Shadow DOM)
-      const activeElement = e.composedPath()[0];
-      
-      // 2. Check if the focus is inside an input, textarea, or any Biel component
-      const isTyping = 
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' ||
-        activeElement.isContentEditable ||
-        e.composedPath().some(el => el.tagName && el.tagName.startsWith('BIEL-'));
-
-      if (isTyping) {
-        /**
-         * Core Logic: Stop the event immediately before MkDocs' scripts can hear it.
-         * This preserves the default typing behavior inside the input box 
-         * while "silencing" the global keyboard listeners of the Material theme.
-         */
-        e.stopImmediatePropagation();
-      }
-    }, { capture: true }); // Use capture phase to intercept the event as early as possible
-  </script>
-
   </body>
 </html>
