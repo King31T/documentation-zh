@@ -106,9 +106,9 @@
     fab.className = "ask-ai-fab";
     fab.setAttribute("aria-label", "Ask AI");
     fab.innerHTML =
-      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>' +
-      "</svg>";
+      '</svg><span class="ask-ai-fab-label">Ask AI</span>';
     fab.addEventListener("click", toggleChat);
 
     // 对话框容器

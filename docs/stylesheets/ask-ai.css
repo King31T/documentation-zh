@@ -3,10 +3,10 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 52px;
-  height: 52px;
+  height: 44px;
+  padding: 0 16px;
   border: none;
-  border-radius: 50%;
+  border-radius: 22px;
   background: #ec0b2a;
   color: #fff;
   cursor: pointer;
@@ -15,7 +15,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ask-ai-fab-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .ask-ai-fab:hover {
