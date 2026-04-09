@@ -54,6 +54,7 @@ theme:
   name: material
   custom_dir: docs/overrides
   features:
+    - navigation.instant   # XHR 局部更新，对话框跨页面存活
     - navigation.sections  # 启用左侧导航栏的分组
     - navigation.footer
     - toc.integrate
@@ -68,13 +69,18 @@ theme:
     text: Roboto  # 正文字体
     code: Roboto Mono  # 代码字体
  
+extra:
+  ask_ai_api: "http://localhost:8000/api"
+
 extra_javascript:
     - javascripts/toc.js
     - javascripts/nav-toc.js
+    - javascripts/ask-ai.js
     - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
 
 extra_css:
     - stylesheets/extra.css
+    - stylesheets/ask-ai.css
 
 markdown_extensions:
     - admonition

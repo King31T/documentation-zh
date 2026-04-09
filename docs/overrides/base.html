@@ -80,7 +80,10 @@
         <meta {% for key, value in tag.items() %} {{ key }}="{{value}}" {% endfor %}>
       {% endfor %}
     {% endif %}
-    {% block extrahead %}{% endblock %}
+    {% block extrahead %}
+      <meta name="ask-ai-api" content="{{ config.extra.ask_ai_api }}">
+      <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    {% endblock %}
   </head>
   {% set direction = config.theme.direction or lang.t("direction") %}
   {% if config.theme.palette %}
