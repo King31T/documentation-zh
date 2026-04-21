@@ -205,7 +205,19 @@ public class ApiWrapper implements Api {
 
 在实际开发中，手动调用 gRPC 接口可能相当繁琐。Trident 是 TRON 官方提供的 Java SDK，已封装大部分 gRPC 调用工作，包括客户端构建、消息序列化/反序列化，以及交易签名和广播等复杂操作。如需更便捷地与 TRON 交互，可直接参考或使用 Trident 进行 gRPC 调用。
 
-## 5. 相关参考和文档
+## 5. API 分类
+
+1. [账户管理](account-management/getaccount.md) — 账户查询、余额和多签验证
+2. [资产与代币](assets-and-tokens/createassetissue.md) — TRC-10 资产发行、转账和查询
+3. [区块操作](block-operations/getblock.md) — 按编号、ID 和范围查询区块
+4. [网络信息](network-information/getbandwidthprices.md) — 节点信息、链参数和价格
+5. [资源管理](resource-management/cancelallunfreezev2.md) — 能量、带宽、质押和委托
+6. [智能合约](smart-contracts/clearcontractabi.md) — 合约部署、触发和查询
+7. [交易操作](transaction-operations/getpendingsize.md) — 交易查询和待处理池
+8. [钱包操作](wallet-operations/accountpermissionupdate.md) — 账户创建、转账和广播
+9. [超级代表与治理](witness-and-governance/createwitness.md) — 见证人管理、投票、提案和奖励
+
+## 6. 相关参考和文档
 
 * **TRON Protocol Buffers 定义：**
   [https://github.com/tronprotocol/protocol](https://github.com/tronprotocol/protocol)
@@ -219,15 +231,3 @@ public class ApiWrapper implements Api {
   [https://github.com/tronprotocol/trident/](https://github.com/tronprotocol/trident/)
 * **Trident 文档：**
   [https://tronprotocol.github.io/trident/](https://tronprotocol.github.io/trident/)
-
-## API 分类
-
-- [账户管理](account-management/getaccount.md) — 账户查询、余额和多签验证
-- [资产与代币](assets-and-tokens/createassetissue.md) — TRC-10 资产发行、转账和查询
-- [区块操作](block-operations/getblock.md) — 按编号、ID 和范围查询区块
-- [网络信息](network-information/getbandwidthprices.md) — 节点信息、链参数和价格
-- [资源管理](resource-management/cancelallunfreezev2.md) — 能量、带宽、质押和委托
-- [智能合约](smart-contracts/clearcontractabi.md) — 合约部署、触发和查询
-- [交易操作](transaction-operations/getpendingsize.md) — 交易查询和待处理池
-- [钱包操作](wallet-operations/accountpermissionupdate.md) — 账户创建、转账和广播
-- [超级代表与治理](witness-and-governance/createwitness.md) — 见证人管理、投票、提案和奖励
