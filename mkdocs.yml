@@ -19,7 +19,49 @@ nav:
     - API接口:
         - HTTP 接口: api/http.md
         - gRPC 接口: api/rpc.md
-        - jsonRPC 接口: api/json-rpc.md
+        - jsonRPC 接口:
+            - 概述: api/json-rpc/index.md
+            - eth:
+                - eth_accounts: api/json-rpc/eth/eth_accounts.md
+                - eth_blockNumber: api/json-rpc/eth/eth_blockNumber.md
+                - eth_call: api/json-rpc/eth/eth_call.md
+                - eth_chainId: api/json-rpc/eth/eth_chainId.md
+                - eth_coinbase: api/json-rpc/eth/eth_coinbase.md
+                - eth_estimateGas: api/json-rpc/eth/eth_estimateGas.md
+                - eth_gasPrice: api/json-rpc/eth/eth_gasPrice.md
+                - eth_getBalance: api/json-rpc/eth/eth_getBalance.md
+                - eth_getBlockByHash: api/json-rpc/eth/eth_getBlockByHash.md
+                - eth_getBlockByNumber: api/json-rpc/eth/eth_getBlockByNumber.md
+                - eth_getBlockTransactionCountByHash: api/json-rpc/eth/eth_getBlockTransactionCountByHash.md
+                - eth_getBlockTransactionCountByNumber: api/json-rpc/eth/eth_getBlockTransactionCountByNumber.md
+                - eth_getCode: api/json-rpc/eth/eth_getCode.md
+                - eth_getStorageAt: api/json-rpc/eth/eth_getStorageAt.md
+                - eth_getTransactionByBlockHashAndIndex: api/json-rpc/eth/eth_getTransactionByBlockHashAndIndex.md
+                - eth_getTransactionByBlockNumberAndIndex: api/json-rpc/eth/eth_getTransactionByBlockNumberAndIndex.md
+                - eth_getTransactionByHash: api/json-rpc/eth/eth_getTransactionByHash.md
+                - eth_getTransactionReceipt: api/json-rpc/eth/eth_getTransactionReceipt.md
+                - eth_getBlockReceipts: api/json-rpc/eth/eth_getBlockReceipts.md
+                - eth_getWork: api/json-rpc/eth/eth_getWork.md
+                - eth_protocolVersion: api/json-rpc/eth/eth_protocolVersion.md
+                - eth_syncing: api/json-rpc/eth/eth_syncing.md
+                - eth_newFilter: api/json-rpc/eth/eth_newFilter.md
+                - eth_newBlockFilter: api/json-rpc/eth/eth_newBlockFilter.md
+                - eth_getFilterChanges: api/json-rpc/eth/eth_getFilterChanges.md
+                - eth_getFilterLogs: api/json-rpc/eth/eth_getFilterLogs.md
+                - eth_uninstallFilter: api/json-rpc/eth/eth_uninstallFilter.md
+                - eth_getLogs: api/json-rpc/eth/eth_getLogs.md
+            - net:
+                - net_listening: api/json-rpc/net/net_listening.md
+                - net_peerCount: api/json-rpc/net/net_peerCount.md
+                - net_version: api/json-rpc/net/net_version.md
+            - web3:
+                - web3_clientVersion: api/json-rpc/web3/web3_clientVersion.md
+                - web3_sha3: api/json-rpc/web3/web3_sha3.md
+            - buildTransaction:
+                - TransferContract: api/json-rpc/buildTransaction/TransferContract.md
+                - TransferAssetContract: api/json-rpc/buildTransaction/TransferAssetContract.md
+                - CreateSmartContract: api/json-rpc/buildTransaction/CreateSmartContract.md
+                - TriggerSmartContract: api/json-rpc/buildTransaction/TriggerSmartContract.md
     - 核心协议:
         - 波场共识: mechanism-algorithm/dpos.md
         - 超级代表: mechanism-algorithm/sr.md
