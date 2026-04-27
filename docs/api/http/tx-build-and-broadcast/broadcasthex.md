@@ -41,7 +41,7 @@
 
 ### 异常响应
 
-业务级错误（`SIGERROR` / `DUP_TRANSACTION_ERROR` / `TAPOS_ERROR` 等）按 `result/code/message` 形态返回，`code` 取值与 [`/wallet/broadcasttransaction`](broadcasttransaction.md#异常响应) 一致。
+业务级错误（`SIGERROR` / `DUP_TRANSACTION_ERROR` / `TAPOS_ERROR` 等）按 `result/code/message` 形态返回，`code` 取值与 [`/wallet/broadcasttransaction`](broadcasttransaction.md) 一致。
 
 入参 `transaction` 字段缺失、不是合法 hex、`Transaction.parseFrom` 反序列化失败时，走默认 `Util.processError`：
 
