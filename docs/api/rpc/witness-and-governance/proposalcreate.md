@@ -1,8 +1,8 @@
-# proposalCreate
+# ProposalCreate
 
-**支持的 API**：`wallet`
+创建链参数提案（仅 SR）。
 
-TRON API 方法，在 TRON 网络上创建新的治理提案。超级代表可以使用此方法提议更改网络参数。
+- 服务：仅支持 `Wallet`
 
 ```protobuf
 rpc ProposalCreate (ProposalCreateContract) returns (TransactionExtention) {}

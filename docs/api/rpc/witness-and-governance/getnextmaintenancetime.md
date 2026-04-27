@@ -1,8 +1,8 @@
-# getNextMaintenanceTime
+# GetNextMaintenanceTime
 
-**支持的 API**：`wallet`
+获取下次 SR 维护期开始时间。
 
-TRON API 方法，检索下一个计划维护窗口的时间戳。维护期每 6 小时发生一次，在此期间见证人选举、奖励分配和其他网络治理更新将生效。
+- 服务：仅支持 `Wallet`
 
 ```protobuf
 rpc GetNextMaintenanceTime (EmptyMessage) returns (NumberMessage) {}

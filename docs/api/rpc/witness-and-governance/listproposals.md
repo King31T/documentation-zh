@@ -1,8 +1,8 @@
-# listProposals
+# ListProposals
 
-**支持的 API**：`wallet`
+获取所有提案列表。
 
-TRON API 方法，检索 TRON 网络上所有治理提案，提供当前和历史提案的全面视图。
+- 服务：仅支持 `Wallet`
 
 ```protobuf
 rpc ListProposals (EmptyMessage) returns (ProposalList) {}

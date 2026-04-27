@@ -1,8 +1,8 @@
-# getPaginatedNowWitnessList
+# GetPaginatedNowWitnessList
 
-**支持的 API**：`wallet` `walletsolidity`
+按分页获取当前生效的 SR 列表。
 
-TRON API 方法，检索当前纪元所有超级代表（SR）的实时投票数，按降序排序，并返回指定范围内的分页列表。
+- 服务：同时支持 `Wallet` 和 `WalletSolidity`
 
 ```protobuf
 rpc GetPaginatedNowWitnessList (PaginatedMessage) returns (WitnessList) {}

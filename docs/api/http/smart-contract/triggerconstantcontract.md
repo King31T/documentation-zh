@@ -1,0 +1,99 @@
+# /wallet/triggerconstantcontract
+
+只读调用合约（不上链），用于读取 view/pure 函数或预演交易。
+
+- 源码：`framework/src/main/java/org/tron/core/services/http/TriggerConstantContractServlet.java`
+- Method：`POST`
+- Contract：`protocol.TriggerSmartContract`
+- Response：`api.TransactionExtention`
+- 支持固化接口：`/walletsolidity/triggerconstantcontract`
+
+## 请求参数
+
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `owner_address` | string | 是 | 调用方地址（合约 `msg.sender`） |
+| `contract_address` | string | 是 | 目标合约地址 |
+| `function_selector` | string | 否 | 函数签名 |
+| `parameter` | string | 否 | ABI 编码参数（hex） |
+| `data` | string | 否 | 调用 data（hex），与 `function_selector` 二选一 |
+| `call_value` | int64 | 否 | 调用带入的 TRX（sun） |
+| `token_id` | int64 | 否 | 调用带入的 TRC10 token id |
+| `call_token_value` | int64 | 否 | 调用带入的 TRC10 数量 |
+| `extra_data` | string | 否 | 交易备注（hex；`visible=true` 时为 UTF-8 文本） |
+| `permission_id` | int32 | 否 | 多签权限 ID |
+| `visible` | bool | 否 | 地址、文本字段格式（响应含 `result.message`，受 `visible` 影响） |
+
+示例：
+
+```json
+{
+  "owner_address": "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv",
+  "contract_address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+  "function_selector": "transfer(address,uint256)",
+  "parameter": "000000000000000000000041a614f803b6fd780986a42c78ec9c7f77e6ded13c0000000000000000000000000000000000000000000000000000000000000064",
+  "visible": true
+}
+```
+
+## 响应
+
+`TransactionExtention`：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `transaction` | Transaction | 未签名交易（仅作上下文，不应再签名广播） |
+| `txid` | string(hex) | 交易哈希 |
+| `constant_result` | repeated bytes(hex) | 函数返回值的 ABI 编码 hex；**revert 时是 revert reason 的 ABI 编码**（前 4 字节 `08c379a0` = `Error(string)` 选择器） |
+| `result` | Return | 结果状态；revert / `require` 失败时 `result.result=false`，`result.message` 含 `REVERT opcode executed` 或 `runtime error` |
+| `energy_used` | int64 | 预估能量消耗 |
+| `energy_penalty` | int64 | 能量惩罚（如有） |
+| `logs` | repeated TransactionLog | event 日志（如触发） |
+| `internal_transactions` | repeated InternalTransaction | 内部调用（如发生） |
+
+响应示例：
+
+```json
+{
+  "result": { "result": true },
+  "transaction": {
+    "visible": true,
+    "txID": "d5ec749ecc2a615399d8a6c864ea4c74ff9f8453eaa44d6b1e2f0b7b3e2f3b6a",
+    "raw_data": {
+      "contract": [
+        {
+          "parameter": {
+            "value": {
+              "data": "a9059cbb...",
+              "owner_address": "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv",
+              "contract_address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+            },
+            "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+          },
+          "type": "TriggerSmartContract"
+        }
+      ],
+      "ref_block_bytes": "1c9a",
+      "ref_block_hash": "8d3a8c0e2c6e8b04",
+      "expiration": 1700000060000,
+      "timestamp": 1700000000000
+    },
+    "raw_data_hex": "0a02..."
+  },
+  "txid": "d5ec749ecc2a615399d8a6c864ea4c74ff9f8453eaa44d6b1e2f0b7b3e2f3b6a",
+  "constant_result": ["0000000000000000000000000000000000000000000000000000000000000001"],
+  "energy_used": 14225
+}
+```
+
+### 异常响应
+
+不会写出 `{"Error": ...}`。所有异常被 catch 后写入 `result.code`、`result.message`，HTTP 体仍是 `TransactionExtention`：
+
+| 触发条件 | `result.result` | `result.code` | `result.message` |
+|---|---|---|---|
+| 合约不存在 / 校验失败（`ContractValidateException`） | false | `CONTRACT_VALIDATE_ERROR` | 校验器原始描述 |
+| EVM revert / `require` 失败 | false | `CONTRACT_EXE_ERROR` | `REVERT opcode executed` 等；`constant_result[0]` 为 `Error(string)` 的 ABI 编码 |
+| 其他（hex 解析、参数缺失、proto merge 等） | false | `OTHER_ERROR` | `<exceptionClass> : <message>`（`"` → `'`） |
+
+revert 时 `result.message` 不携带原 reason 字符串；reason 需自己解码 `constant_result[0]`：跳过前 4 字节选择器 `08c379a0`，按 ABI `string` 解码剩余数据。

@@ -1,61 +1,50 @@
-# getproposalbyid
+# /wallet/getproposalbyid
 
-TRON API 方法，通过提案 ID 检索特定治理提案的详细信息。
+按 ID 查询提案。
 
-## HTTP 请求
+- 源码：`framework/src/main/java/org/tron/core/services/http/GetProposalByIdServlet.java`
+- Method：`GET` / `POST`
+- Response：`protocol.Proposal`（`Tron.proto`）
 
-`POST /wallet/getproposalbyid`
+## 请求参数
 
-## 支持的路径
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `id` | int64 | 是 | 提案 ID |
+| `visible` | bool | 否 | 地址格式 |
 
-- `/wallet/getproposalbyid`
-
-## 参数
-
-- id — 要检索信息的提案 ID
-
-## 返回值
-
-- proposal_id — 提案的唯一标识符
-- proposer_address — 创建提案的超级代表地址
-- parameters — 包含提案参数变更的对象
-- expiration_time — 提案过期时间戳
-- create_time — 提案创建时间戳
-- approvals — 已批准该提案的超级代表数组
-- state — 提案当前状态（PENDING、DISAPPROVED、APPROVED、CANCELED）
-
-## 示例
-
-### 请求
-
-```shell
-curl --request POST \
-  --url https://api.shasta.trongrid.io/wallet/getproposalbyid \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "id": 1
-}'
-```
-
-### 返回
+示例：
 
 ```json
 {
-  "proposal_id": 123,
-  "proposer_address": "<string>",
-  "parameters": {},
-  "expiration_time": 123,
-  "create_time": 123,
-  "approvals": [
-    "<string>"
-  ],
-  "state": "PENDING"
+  "id": 1
 }
 ```
 
-## 使用场景
+## 响应
 
-- 在治理界面中检索详细的提案信息。
-- 查看提案状态和批准进度。
-- 监控提案参数和投票结果。
-- 构建治理仪表板和投票应用。
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `proposal_id` | int64 | 提案 ID |
+| `proposer_address` | string | 提案人地址 |
+| `parameters` | map<int64, int64> | 参数项 |
+| `expiration_time` | int64 | 过期时间（毫秒时间戳） |
+| `create_time` | int64 | 创建时间（毫秒时间戳） |
+| `approvals` | repeated string | 已赞成的 SR 地址 |
+| `state` | enum | `PENDING` / `DISAPPROVED` / `APPROVED` / `CANCELED` |
+
+响应示例：
+
+```json
+{
+  "proposal_id": 1,
+  "proposer_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
+  "parameters": { "0": 86400000 },
+  "expiration_time": 1700000000000,
+  "create_time": 1600000000000,
+  "approvals": ["TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF"],
+  "state": "APPROVED"
+}
+```
+
+不存在返回 `{}`。

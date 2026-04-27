@@ -1,69 +1,61 @@
-# proposalapprove
+# /wallet/proposalapprove
 
-TRON API 方法，允许超级代表批准治理提案。提案需要超级代表的多数批准才能执行。
+SR 对提案投票（赞成/取消赞成）。
 
-## HTTP 请求
+- 源码：`framework/src/main/java/org/tron/core/services/http/ProposalApproveServlet.java`
+- Method：`POST`
+- Contract：`protocol.ProposalApproveContract`
 
-`POST /wallet/proposalapprove`
+## 请求参数
 
-## 支持的路径
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `owner_address` | string | 是 | SR 地址 |
+| `proposal_id` | int64 | 是 | 提案 ID |
+| `is_add_approval` | bool | 是 | true=赞成，false=取消赞成 |
+| `permission_id` | int32 | 否 | 多签权限 ID |
+| `visible` | bool | 否 | 地址格式 |
 
-- `/wallet/proposalapprove`
+示例：
 
-## 参数
-
-- owner_address — 批准提案的超级代表地址，可以是 base58 或十六进制格式
-- proposal_id — 要批准的提案 ID
-- is_add_approval — 布尔值，表示是批准（true）还是撤销批准（false）
-- visible — 可选布尔参数。设置为 true 时，地址应为 base58 格式。默认为 false。
-
-## 返回值
-
-- txID — 批准操作的交易哈希
-- raw_data — 原始交易数据
-- raw_data_hex — 十六进制格式的原始交易数据
-- signature — 交易签名数组
-
-## 示例
-
-### 请求
-
-```shell
-curl --request POST \
-  --url https://api.shasta.trongrid.io/wallet/proposalapprove \
-  --header 'Content-Type: application/json' \
-  --data '
+```json
 {
-  "owner_address": "TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsnYS2g",
+  "owner_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
   "proposal_id": 1,
   "is_add_approval": true,
   "visible": true
 }
-'
 ```
 
-### 返回
+## 响应
+
+返回未签名 `protocol.Transaction`。
+
+响应示例：
 
 ```json
 {
-  "txID": "<string>",
+  "visible": true,
+  "txID": "d5ec749ecc2a615399d8a6c864ea4c74ff9f8453eaa44d6b1e2f0b7b3e2f3b6a",
   "raw_data": {
-    "contract": "<array>",
-    "ref_block_bytes": "<string>",
-    "ref_block_hash": "<string>",
-    "expiration": 123,
-    "timestamp": 123
+    "contract": [
+      {
+        "parameter": {
+          "value": {
+              "owner_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
+              "proposal_id": 1,
+              "is_add_approval": true
+          },
+          "type_url": "type.googleapis.com/protocol.ProposalApproveContract"
+        },
+        "type": "ProposalApproveContract"
+      }
+    ],
+    "ref_block_bytes": "1c9a",
+    "ref_block_hash": "8d3a8c0e2c6e8b04",
+    "expiration": 1700000060000,
+    "timestamp": 1700000000000
   },
-  "raw_data_hex": "<string>",
-  "signature": [
-    "<string>"
-  ]
+  "raw_data_hex": "0a02..."
 }
 ```
-
-## 使用场景
-
-- 超级代表批准治理提案。
-- 参与提案投票流程。
-- 支持或反对拟议的网络参数变更。
-- 在治理工作流中管理提案批准状态。

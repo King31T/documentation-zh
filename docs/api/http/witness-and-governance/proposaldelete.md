@@ -1,67 +1,58 @@
-# proposaldelete
+# /wallet/proposaldelete
 
-TRON API 方法，允许提案创建者在提案进入执行阶段前删除或取消治理提案。
+撤销自己创建的提案（仅提案发起人）。
 
-## HTTP 请求
+- 源码：`framework/src/main/java/org/tron/core/services/http/ProposalDeleteServlet.java`
+- Method：`POST`
+- Contract：`protocol.ProposalDeleteContract`
 
-`POST /wallet/proposaldelete`
+## 请求参数
 
-## 支持的路径
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `owner_address` | string | 是 | 提案发起人地址 |
+| `proposal_id` | int64 | 是 | 提案 ID |
+| `permission_id` | int32 | 否 | 多签权限 ID |
+| `visible` | bool | 否 | 地址格式 |
 
-- `/wallet/proposaldelete`
-
-## 参数
-
-- owner_address — 要删除提案的创建者地址，可以是 base58 或十六进制格式
-- proposal_id — 要删除的提案 ID
-- visible — 可选布尔参数。设置为 true 时，地址应为 base58 格式。默认为 false。
-
-## 返回值
-
-- txID — 提案删除的交易哈希
-- raw_data — 原始交易数据
-- raw_data_hex — 十六进制格式的原始交易数据
-- signature — 交易签名数组
-
-## 示例
-
-### 请求
-
-```shell
-curl --request POST \
-  --url https://api.shasta.trongrid.io/wallet/proposaldelete \
-  --header 'Content-Type: application/json' \
-  --data '
-{
-  "owner_address": "TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsnYS2g",
-  "proposal_id": 1,
-  "visible": true
-}
-'
-```
-
-### 返回
+示例：
 
 ```json
 {
-  "txID": "<string>",
-  "raw_data": {
-    "contract": "<array>",
-    "ref_block_bytes": "<string>",
-    "ref_block_hash": "<string>",
-    "expiration": 123,
-    "timestamp": 123
-  },
-  "raw_data_hex": "<string>",
-  "signature": [
-    "<string>"
-  ]
+  "owner_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
+  "proposal_id": 1,
+  "visible": true
 }
 ```
 
-## 使用场景
+## 响应
 
-- 取消不再需要的提案。
-- 撤回有错误或参数不正确的提案。
-- 在治理系统中管理提案生命周期。
-- 防止不需要的提案进入执行阶段。
+返回未签名 `protocol.Transaction`。
+
+响应示例：
+
+```json
+{
+  "visible": true,
+  "txID": "d5ec749ecc2a615399d8a6c864ea4c74ff9f8453eaa44d6b1e2f0b7b3e2f3b6a",
+  "raw_data": {
+    "contract": [
+      {
+        "parameter": {
+          "value": {
+              "owner_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
+              "proposal_id": 1
+          },
+          "type_url": "type.googleapis.com/protocol.ProposalDeleteContract"
+        },
+        "type": "ProposalDeleteContract"
+      }
+    ],
+    "ref_block_bytes": "1c9a",
+    "ref_block_hash": "8d3a8c0e2c6e8b04",
+    "expiration": 1700000060000,
+    "timestamp": 1700000000000
+  },
+  "raw_data_hex": "0a02..."
+}
+```

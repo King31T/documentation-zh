@@ -19,192 +19,192 @@ nav:
     - API接口:
         - HTTP 接口:
             - 概述: api/http/index.md
-            - 账户管理:
-                - getaccount: api/http/account-management/getaccount.md
-                - getaccountbalance: api/http/account-management/getaccountbalance.md
-                - getaccountnet: api/http/account-management/getaccountnet.md
-                - getapprovedlist: api/http/account-management/getapprovedlist.md
-                - getsignweight: api/http/account-management/getsignweight.md
-            - 资产与代币:
-                - createassetissue: api/http/assets-and-tokens/createassetissue.md
-                - getassetissuebyaccount: api/http/assets-and-tokens/getassetissuebyaccount.md
-                - getassetissuebyid: api/http/assets-and-tokens/getassetissuebyid.md
-                - getassetissuebyname: api/http/assets-and-tokens/getassetissuebyname.md
-                - getassetissuelist: api/http/assets-and-tokens/getassetissuelist.md
-                - getassetissuelistbyname: api/http/assets-and-tokens/getassetissuelistbyname.md
-                - getpaginatedassetissuelist: api/http/assets-and-tokens/getpaginatedassetissuelist.md
-                - participateassetissue: api/http/assets-and-tokens/participateassetissue.md
-                - transferasset: api/http/assets-and-tokens/transferasset.md
-                - unfreezeasset: api/http/assets-and-tokens/unfreezeasset.md
-                - updateasset: api/http/assets-and-tokens/updateasset.md
-            - 区块操作:
-                - getblock: api/http/block-operations/getblock.md
-                - getblockbalance: api/http/block-operations/getblockbalance.md
-                - getblockbyid: api/http/block-operations/getblockbyid.md
-                - getblockbylatestnum: api/http/block-operations/getblockbylatestnum.md
-                - getblockbylimitnext: api/http/block-operations/getblockbylimitnext.md
-                - getblockbynum: api/http/block-operations/getblockbynum.md
-                - getnowblock: api/http/block-operations/getnowblock.md
-            - 网络信息:
-                - getbandwidthprices: api/http/network-information/getbandwidthprices.md
-                - getburntrx: api/http/network-information/getburntrx.md
-                - getchainparameters: api/http/network-information/getchainparameters.md
-                - getenergyprices: api/http/network-information/getenergyprices.md
-                - getnodeinfo: api/http/network-information/getnodeinfo.md
-                - listnodes: api/http/network-information/listnodes.md
-            - 资源管理:
-                - cancelallunfreezev2: api/http/resource-management/cancelallunfreezev2.md
-                - delegateresource: api/http/resource-management/delegateresource.md
-                - freezebalance: api/http/resource-management/freezebalance.md
-                - freezebalancev2: api/http/resource-management/freezebalancev2.md
-                - getaccountresource: api/http/resource-management/getaccountresource.md
-                - getavailableunfreezecount: api/http/resource-management/getavailableunfreezecount.md
-                - getcandelegatedmaxsize: api/http/resource-management/getcandelegatedmaxsize.md
-                - getcanwithdrawunfreezeamount: api/http/resource-management/getcanwithdrawunfreezeamount.md
-                - getdelegatedresource: api/http/resource-management/getdelegatedresource.md
-                - getdelegatedresourceaccountindex: api/http/resource-management/getdelegatedresourceaccountindex.md
-                - getdelegatedresourceaccountindexv2: api/http/resource-management/getdelegatedresourceaccountindexv2.md
-                - getdelegatedresourcev2: api/http/resource-management/getdelegatedresourcev2.md
-                - undelegateresource: api/http/resource-management/undelegateresource.md
-                - unfreezebalance: api/http/resource-management/unfreezebalance.md
-                - unfreezebalancev2: api/http/resource-management/unfreezebalancev2.md
-                - withdrawexpireunfreeze: api/http/resource-management/withdrawexpireunfreeze.md
+            - 账户:
+                - 按地址查询账户: api/http/account/getaccount.md
+                - 查询账户在指定区块的余额: api/http/account/getaccountbalance.md
+                - 查询账户带宽资源: api/http/account/getaccountnet.md
+                - 查询账户带宽+能量+TronPower: api/http/account/getaccountresource.md
+                - 链上创建账户: api/http/account/createaccount.md
+                - 修改账户名: api/http/account/updateaccount.md
+                - 配置多签权限: api/http/account/accountpermissionupdate.md
+                - 校验地址合法性: api/http/account/validateaddress.md
+            - 区块 / 交易查询:
+                - 当前最新区块: api/http/block-and-tx-query/getnowblock.md
+                - 通用区块查询: api/http/block-and-tx-query/getblock.md
+                - 按高度查询区块: api/http/block-and-tx-query/getblockbynum.md
+                - 按 hash 查询区块: api/http/block-and-tx-query/getblockbyid.md
+                - 按区间查询区块: api/http/block-and-tx-query/getblockbylimitnext.md
+                - 查询最近 N 个区块: api/http/block-and-tx-query/getblockbylatestnum.md
+                - 查询区块的账户余额变更: api/http/block-and-tx-query/getblockbalance.md
+                - 区块内交易数: api/http/block-and-tx-query/gettransactioncountbyblocknum.md
+                - 按 txid 查询交易: api/http/block-and-tx-query/gettransactionbyid.md
+                - 按 txid 查询交易回执: api/http/block-and-tx-query/gettransactioninfobyid.md
+                - 按区块查询交易回执: api/http/block-and-tx-query/gettransactioninfobyblocknum.md
+                - 待打包交易池大小: api/http/block-and-tx-query/getpendingsize.md
+                - 查询单条 pending 交易: api/http/block-and-tx-query/gettransactionfrompending.md
+                - 全部 pending 交易 ID: api/http/block-and-tx-query/gettransactionlistfrompending.md
+            - 交易构造 / 广播:
+                - 构造 TRX 转账交易: api/http/tx-build-and-broadcast/createtransaction.md
+                - 查询多签当前权重: api/http/tx-build-and-broadcast/getsignweight.md
+                - 查询多签已签署地址: api/http/tx-build-and-broadcast/getapprovedlist.md
+                - 广播签名后的交易 JSON: api/http/tx-build-and-broadcast/broadcasttransaction.md
+                - 广播签名后的交易 hex: api/http/tx-build-and-broadcast/broadcasthex.md
+            - TRC10 资产:
+                - 发行 TRC10 通证: api/http/asset/createassetissue.md
+                - 修改 TRC10 描述: api/http/asset/updateasset.md
+                - 转账 TRC10: api/http/asset/transferasset.md
+                - 参与 TRC10 募资: api/http/asset/participateassetissue.md
+                - 解锁发行方冻结的 TRC10: api/http/asset/unfreezeasset.md
+                - 按 id 查询 TRC10: api/http/asset/getassetissuebyid.md
+                - 按名查询 TRC10: api/http/asset/getassetissuebyname.md
+                - 同名 TRC10 列表: api/http/asset/getassetissuelistbyname.md
+                - 账户发行的 TRC10: api/http/asset/getassetissuebyaccount.md
+                - 全网 TRC10 列表: api/http/asset/getassetissuelist.md
+                - 分页 TRC10 列表: api/http/asset/getpaginatedassetissuelist.md
             - 智能合约:
-                - clearabi: api/http/smart-contracts/clearabi.md
-                - deploycontract: api/http/smart-contracts/deploycontract.md
-                - estimateenergy: api/http/smart-contracts/estimateenergy.md
-                - getcontract: api/http/smart-contracts/getcontract.md
-                - getcontractinfo: api/http/smart-contracts/getcontractinfo.md
-                - triggerconstantcontract: api/http/smart-contracts/triggerconstantcontract.md
-                - triggersmartcontract: api/http/smart-contracts/triggersmartcontract.md
-                - updateenergylimit: api/http/smart-contracts/updateenergylimit.md
-                - updatesetting: api/http/smart-contracts/updatesetting.md
-            - 交易操作:
-                - getpendingsize: api/http/transaction-operations/getpendingsize.md
-                - gettransactionbyid: api/http/transaction-operations/gettransactionbyid.md
-                - gettransactioncountbyblocknum: api/http/transaction-operations/gettransactioncountbyblocknum.md
-                - gettransactionfrompending: api/http/transaction-operations/gettransactionfrompending.md
-                - gettransactioninfobyblocknum: api/http/transaction-operations/gettransactioninfobyblocknum.md
-                - gettransactioninfobyid: api/http/transaction-operations/gettransactioninfobyid.md
-                - gettransactionlistfrompending: api/http/transaction-operations/gettransactionlistfrompending.md
-            - 钱包操作:
-                - accountpermissionupdate: api/http/wallet-operations/accountpermissionupdate.md
-                - broadcasthex: api/http/wallet-operations/broadcasthex.md
-                - broadcasttransaction: api/http/wallet-operations/broadcasttransaction.md
-                - createaccount: api/http/wallet-operations/createaccount.md
-                - createtransaction: api/http/wallet-operations/createtransaction.md
-                - updateaccount: api/http/wallet-operations/updateaccount.md
-                - validateaddress: api/http/wallet-operations/validateaddress.md
-            - 超级代表与治理:
-                - createwitness: api/http/witness-and-governance/createwitness.md
-                - getBrokerage: api/http/witness-and-governance/getBrokerage.md
-                - getReward: api/http/witness-and-governance/getReward.md
-                - getnextmaintenancetime: api/http/witness-and-governance/getnextmaintenancetime.md
-                - getpaginatednowwitnesslist: api/http/witness-and-governance/getpaginatednowwitnesslist.md
-                - getpaginatedproposallist: api/http/witness-and-governance/getpaginatedproposallist.md
-                - getproposalbyid: api/http/witness-and-governance/getproposalbyid.md
-                - listproposals: api/http/witness-and-governance/listproposals.md
-                - listwitnesses: api/http/witness-and-governance/listwitnesses.md
-                - proposalapprove: api/http/witness-and-governance/proposalapprove.md
-                - proposalcreate: api/http/witness-and-governance/proposalcreate.md
-                - proposaldelete: api/http/witness-and-governance/proposaldelete.md
-                - updateBrokerage: api/http/witness-and-governance/updateBrokerage.md
-                - updatewitness: api/http/witness-and-governance/updatewitness.md
-                - votewitnessaccount: api/http/witness-and-governance/votewitnessaccount.md
-                - withdrawbalance: api/http/witness-and-governance/withdrawbalance.md
+                - 部署合约: api/http/smart-contract/deploycontract.md
+                - 触发合约写: api/http/smart-contract/triggersmartcontract.md
+                - 只读调用合约: api/http/smart-contract/triggerconstantcontract.md
+                - 预估调用能量消耗: api/http/smart-contract/estimateenergy.md
+                - 查询合约元信息: api/http/smart-contract/getcontract.md
+                - 查询合约完整运行信息: api/http/smart-contract/getcontractinfo.md
+                - 清空合约 ABI: api/http/smart-contract/clearabi.md
+                - 修改用户能量百分比: api/http/smart-contract/updatesetting.md
+                - 修改部署者能量上限: api/http/smart-contract/updateenergylimit.md
+            - 见证人 / 治理:
+                - 申请成为 SR 候选人: api/http/witness-and-governance/createwitness.md
+                - 修改 SR URL: api/http/witness-and-governance/updatewitness.md
+                - 所有 SR 候选人列表: api/http/witness-and-governance/listwitnesses.md
+                - 分页 SR 列表: api/http/witness-and-governance/getpaginatednowwitnesslist.md
+                - 给 SR 投票: api/http/witness-and-governance/votewitnessaccount.md
+                - SR 当前佣金比例: api/http/witness-and-governance/getBrokerage.md
+                - SR 修改佣金: api/http/witness-and-governance/updateBrokerage.md
+                - 查询可领取分红: api/http/witness-and-governance/getReward.md
+                - 提取出块奖励或分红: api/http/witness-and-governance/withdrawbalance.md
+                - 创建链参数提案: api/http/witness-and-governance/proposalcreate.md
+                - SR 对提案投票: api/http/witness-and-governance/proposalapprove.md
+                - 撤销自己的提案: api/http/witness-and-governance/proposaldelete.md
+                - 提案列表: api/http/witness-and-governance/listproposals.md
+                - 按 ID 查询提案: api/http/witness-and-governance/getproposalbyid.md
+                - 分页提案列表: api/http/witness-and-governance/getpaginatedproposallist.md
+                - 链参数当前值: api/http/witness-and-governance/getchainparameters.md
+                - 下次维护期时间: api/http/witness-and-governance/getnextmaintenancetime.md
+            - 质押 1.0（已弃用）:
+                - 冻结 TRX 获取资源 V1: api/http/stake-v1/freezebalance.md
+                - 解冻已到期资源 V1: api/http/stake-v1/unfreezebalance.md
+                - 查询代理记录 V1: api/http/stake-v1/getdelegatedresource.md
+                - 查询代理对手地址 V1: api/http/stake-v1/getdelegatedresourceaccountindex.md
+            - 质押 2.0:
+                - 冻结 TRX 获取资源: api/http/stake-v2/freezebalancev2.md
+                - 发起解冻: api/http/stake-v2/unfreezebalancev2.md
+                - 提取已到期解冻: api/http/stake-v2/withdrawexpireunfreeze.md
+                - 取消所有未到期解冻: api/http/stake-v2/cancelallunfreezev2.md
+                - 资源代理给他人: api/http/stake-v2/delegateresource.md
+                - 撤销资源代理: api/http/stake-v2/undelegateresource.md
+                - 查询代理记录: api/http/stake-v2/getdelegatedresourcev2.md
+                - 查询代理对手地址: api/http/stake-v2/getdelegatedresourceaccountindexv2.md
+                - 当前可代理上限: api/http/stake-v2/getcandelegatedmaxsize.md
+                - 剩余可解冻次数: api/http/stake-v2/getavailableunfreezecount.md
+                - 指定时间可提取金额: api/http/stake-v2/getcanwithdrawunfreezeamount.md
+            - 节点 / 价格 / 工具:
+                - 节点状态: api/http/node-and-tools/getnodeinfo.md
+                - 已知对等节点: api/http/node-and-tools/listnodes.md
+                - 能量历史单价: api/http/node-and-tools/getenergyprices.md
+                - 带宽历史单价: api/http/node-and-tools/getbandwidthprices.md
+                - 累计销毁 TRX: api/http/node-and-tools/getburntrx.md
         - gRPC 接口:
             - 概述: api/rpc/index.md
-            - 账户管理:
-                - getaccount: api/rpc/account-management/getaccount.md
-                - getaccountbalance: api/rpc/account-management/getaccountbalance.md
-                - getaccountnet: api/rpc/account-management/getaccountnet.md
-                - gettransactionapprovedlist: api/rpc/account-management/gettransactionapprovedlist.md
-                - gettransactionsignweight: api/rpc/account-management/gettransactionsignweight.md
-            - 资产与代币:
-                - createassetissue: api/rpc/assets-and-tokens/createassetissue.md
-                - getassetissuebyaccount: api/rpc/assets-and-tokens/getassetissuebyaccount.md
-                - getassetissuebyid: api/rpc/assets-and-tokens/getassetissuebyid.md
-                - getassetissuebyname: api/rpc/assets-and-tokens/getassetissuebyname.md
-                - getassetissuelist: api/rpc/assets-and-tokens/getassetissuelist.md
-                - getassetissuelistbyname: api/rpc/assets-and-tokens/getassetissuelistbyname.md
-                - getpaginatedassetissuelist: api/rpc/assets-and-tokens/getpaginatedassetissuelist.md
-                - participateassetissue: api/rpc/assets-and-tokens/participateassetissue.md
-                - transferasset: api/rpc/assets-and-tokens/transferasset.md
-                - unfreezeasset: api/rpc/assets-and-tokens/unfreezeasset.md
-                - updateasset: api/rpc/assets-and-tokens/updateasset.md
-            - 区块操作:
-                - getblock: api/rpc/block-operations/getblock.md
-                - getblockbalancetrace: api/rpc/block-operations/getblockbalancetrace.md
-                - getblockbyid: api/rpc/block-operations/getblockbyid.md
-                - getblockbylatestnum: api/rpc/block-operations/getblockbylatestnum.md
-                - getblockbylimitnext: api/rpc/block-operations/getblockbylimitnext.md
-                - getblockbynum: api/rpc/block-operations/getblockbynum.md
-                - getnowblock: api/rpc/block-operations/getnowblock.md
-            - 网络信息:
-                - getbandwidthprices: api/rpc/network-information/getbandwidthprices.md
-                - getburntrx: api/rpc/network-information/getburntrx.md
-                - getchainparameters: api/rpc/network-information/getchainparameters.md
-                - getenergyprices: api/rpc/network-information/getenergyprices.md
-                - getnodeinfo: api/rpc/network-information/getnodeinfo.md
-                - listnodes: api/rpc/network-information/listnodes.md
-            - 资源管理:
-                - cancelallunfreezev2: api/rpc/resource-management/cancelallunfreezev2.md
-                - delegateresource: api/rpc/resource-management/delegateresource.md
-                - freezebalance: api/rpc/resource-management/freezebalance.md
-                - freezebalancev2: api/rpc/resource-management/freezebalancev2.md
-                - getaccountresource: api/rpc/resource-management/getaccountresource.md
-                - getavailableunfreezecount: api/rpc/resource-management/getavailableunfreezecount.md
-                - getcandelegatedmaxsize: api/rpc/resource-management/getcandelegatedmaxsize.md
-                - getcanwithdrawunfreezeamount: api/rpc/resource-management/getcanwithdrawunfreezeamount.md
-                - getdelegatedresource: api/rpc/resource-management/getdelegatedresource.md
-                - getdelegatedresourceaccountindex: api/rpc/resource-management/getdelegatedresourceaccountindex.md
-                - getdelegatedresourceaccountindexv2: api/rpc/resource-management/getdelegatedresourceaccountindexv2.md
-                - getdelegatedresourcev2: api/rpc/resource-management/getdelegatedresourcev2.md
-                - undelegateresource: api/rpc/resource-management/undelegateresource.md
-                - unfreezebalance: api/rpc/resource-management/unfreezebalance.md
-                - unfreezebalancev2: api/rpc/resource-management/unfreezebalancev2.md
-                - withdrawexpireunfreeze: api/rpc/resource-management/withdrawexpireunfreeze.md
+            - 账户:
+                - 查询账户信息: api/rpc/account/GetAccount.md
+                - 按指定区块查询账户 TRX 余额: api/rpc/account/GetAccountBalance.md
+                - 查询带宽资源使用: api/rpc/account/GetAccountNet.md
+                - 查询带宽+能量+TronPower 使用: api/rpc/account/GetAccountResource.md
+                - 创建新账户: api/rpc/account/CreateAccount2.md
+                - 修改账户昵称: api/rpc/account/UpdateAccount2.md
+                - 修改账户多签权限: api/rpc/account/AccountPermissionUpdate.md
+            - TRC10 通证:
+                - 发行 TRC10 通证: api/rpc/asset/CreateAssetIssue2.md
+                - 修改 TRC10 描述: api/rpc/asset/UpdateAsset2.md
+                - TRC10 通证转账: api/rpc/asset/TransferAsset2.md
+                - 参与 TRC10 募集: api/rpc/asset/ParticipateAssetIssue2.md
+                - 解冻发行方冻结的通证: api/rpc/asset/UnfreezeAsset2.md
+                - 按 token id 查询 TRC10: api/rpc/asset/GetAssetIssueById.md
+                - 按名查询 TRC10: api/rpc/asset/GetAssetIssueByName.md
+                - 按名查询所有同名 TRC10: api/rpc/asset/GetAssetIssueListByName.md
+                - 查询账户发行的 TRC10: api/rpc/asset/GetAssetIssueByAccount.md
+                - 查询全网 TRC10: api/rpc/asset/GetAssetIssueList.md
+                - 分页查询全网 TRC10: api/rpc/asset/GetPaginatedAssetIssueList.md
+            - 区块与交易查询:
+                - 当前最新区块: api/rpc/block-and-tx-query/GetNowBlock2.md
+                - 按 num 或 hash 查询区块: api/rpc/block-and-tx-query/GetBlock.md
+                - 按区块号查询: api/rpc/block-and-tx-query/GetBlockByNum2.md
+                - 按区块哈希查询: api/rpc/block-and-tx-query/GetBlockById.md
+                - 区间查询区块: api/rpc/block-and-tx-query/GetBlockByLimitNext2.md
+                - 最新 N 个区块: api/rpc/block-and-tx-query/GetBlockByLatestNum2.md
+                - 区块内余额变动追踪: api/rpc/block-and-tx-query/GetBlockBalanceTrace.md
+                - 区块交易数: api/rpc/block-and-tx-query/GetTransactionCountByBlockNum.md
+                - 按 ID 查询交易体: api/rpc/block-and-tx-query/GetTransactionById.md
+                - 按 ID 查询交易执行结果: api/rpc/block-and-tx-query/GetTransactionInfoById.md
+                - 区块内所有交易执行结果: api/rpc/block-and-tx-query/GetTransactionInfoByBlockNum.md
+                - pending 池交易数: api/rpc/block-and-tx-query/GetPendingSize.md
+                - 从 pending 取交易: api/rpc/block-and-tx-query/GetTransactionFromPending.md
+                - pending 中所有交易 ID: api/rpc/block-and-tx-query/GetTransactionListFromPending.md
+            - 交易构造与广播:
+                - 创建 TRX 转账交易: api/rpc/tx-build-and-broadcast/CreateTransaction2.md
+                - 多签交易权重校验: api/rpc/tx-build-and-broadcast/GetTransactionSignWeight.md
+                - 多签交易已签名地址: api/rpc/tx-build-and-broadcast/GetTransactionApprovedList.md
+                - 广播已签名交易: api/rpc/tx-build-and-broadcast/BroadcastTransaction.md
             - 智能合约:
-                - clearcontractabi: api/rpc/smart-contracts/clearcontractabi.md
-                - deploycontract: api/rpc/smart-contracts/deploycontract.md
-                - estimateenergy: api/rpc/smart-contracts/estimateenergy.md
-                - getcontract: api/rpc/smart-contracts/getcontract.md
-                - getcontractinfo: api/rpc/smart-contracts/getcontractinfo.md
-                - triggerconstantcontract: api/rpc/smart-contracts/triggerconstantcontract.md
-                - triggercontract: api/rpc/smart-contracts/triggercontract.md
-                - updateenergylimit: api/rpc/smart-contracts/updateenergylimit.md
-                - updatesetting: api/rpc/smart-contracts/updatesetting.md
-            - 交易操作:
-                - getpendingsize: api/rpc/transaction-operations/getpendingsize.md
-                - gettransactionbyid: api/rpc/transaction-operations/gettransactionbyid.md
-                - gettransactioncountbyblocknum: api/rpc/transaction-operations/gettransactioncountbyblocknum.md
-                - gettransactionfrompending: api/rpc/transaction-operations/gettransactionfrompending.md
-                - gettransactioninfobyblocknum: api/rpc/transaction-operations/gettransactioninfobyblocknum.md
-                - gettransactioninfobyid: api/rpc/transaction-operations/gettransactioninfobyid.md
-                - gettransactionlistfrompending: api/rpc/transaction-operations/gettransactionlistfrompending.md
-            - 钱包操作:
-                - accountpermissionupdate: api/rpc/wallet-operations/accountpermissionupdate.md
-                - broadcasttransaction: api/rpc/wallet-operations/broadcasttransaction.md
-                - createaccount: api/rpc/wallet-operations/createaccount.md
-                - createtransaction: api/rpc/wallet-operations/createtransaction.md
-                - updateaccount: api/rpc/wallet-operations/updateaccount.md
+                - 部署合约: api/rpc/smart-contract/DeployContract.md
+                - 触发合约: api/rpc/smart-contract/TriggerContract.md
+                - 只读调用合约: api/rpc/smart-contract/TriggerConstantContract.md
+                - 预估调用能量: api/rpc/smart-contract/EstimateEnergy.md
+                - 合约元信息: api/rpc/smart-contract/GetContract.md
+                - 合约完整运行时信息: api/rpc/smart-contract/GetContractInfo.md
+                - 清空合约 ABI: api/rpc/smart-contract/ClearContractABI.md
+                - 修改合约用户资源比例: api/rpc/smart-contract/UpdateSetting.md
+                - 修改合约 origin 能量上限: api/rpc/smart-contract/UpdateEnergyLimit.md
             - 超级代表与治理:
-                - createwitness: api/rpc/witness-and-governance/createwitness.md
-                - getbrokerageinfo: api/rpc/witness-and-governance/getbrokerageinfo.md
-                - getnextmaintenancetime: api/rpc/witness-and-governance/getnextmaintenancetime.md
-                - getpaginatednowwitnesslist: api/rpc/witness-and-governance/getpaginatednowwitnesslist.md
-                - getpaginatedproposallist: api/rpc/witness-and-governance/getpaginatedproposallist.md
-                - getproposalbyid: api/rpc/witness-and-governance/getproposalbyid.md
-                - getrewardinfo: api/rpc/witness-and-governance/getrewardinfo.md
-                - listproposals: api/rpc/witness-and-governance/listproposals.md
-                - listwitnesses: api/rpc/witness-and-governance/listwitnesses.md
-                - proposalapprove: api/rpc/witness-and-governance/proposalapprove.md
-                - proposalcreate: api/rpc/witness-and-governance/proposalcreate.md
-                - proposaldelete: api/rpc/witness-and-governance/proposaldelete.md
-                - updatebrokerage: api/rpc/witness-and-governance/updatebrokerage.md
-                - updatewitness: api/rpc/witness-and-governance/updatewitness.md
-                - votewitnessaccount: api/rpc/witness-and-governance/votewitnessaccount.md
-                - withdrawbalance: api/rpc/witness-and-governance/withdrawbalance.md
+                - 申请 SR 候选人: api/rpc/witness-and-governance/CreateWitness2.md
+                - 修改 SR URL: api/rpc/witness-and-governance/UpdateWitness2.md
+                - 所有 SR 候选人: api/rpc/witness-and-governance/ListWitnesses.md
+                - 分页获取当前 SR: api/rpc/witness-and-governance/GetPaginatedNowWitnessList.md
+                - 给 SR 投票: api/rpc/witness-and-governance/VoteWitnessAccount2.md
+                - SR 分红比例: api/rpc/witness-and-governance/GetBrokerageInfo.md
+                - SR 修改分红比例: api/rpc/witness-and-governance/UpdateBrokerage.md
+                - 账户可领取分红: api/rpc/witness-and-governance/GetRewardInfo.md
+                - 提取出块或分红奖励: api/rpc/witness-and-governance/WithdrawBalance2.md
+                - 创建链参数提案: api/rpc/witness-and-governance/ProposalCreate.md
+                - SR 投票提案: api/rpc/witness-and-governance/ProposalApprove.md
+                - 撤销自己的提案: api/rpc/witness-and-governance/ProposalDelete.md
+                - 所有提案列表: api/rpc/witness-and-governance/ListProposals.md
+                - 按 ID 查询提案: api/rpc/witness-and-governance/GetProposalById.md
+                - 分页提案列表: api/rpc/witness-and-governance/GetPaginatedProposalList.md
+                - 链参数当前值: api/rpc/witness-and-governance/GetChainParameters.md
+                - 下次维护期开始时间: api/rpc/witness-and-governance/GetNextMaintenanceTime.md
+            - 资源 Stake 1.0（已弃用）:
+                - 冻结 TRX: api/rpc/stake-v1/FreezeBalance2.md
+                - 解冻: api/rpc/stake-v1/UnfreezeBalance2.md
+                - 查询资源代理记录 v1: api/rpc/stake-v1/GetDelegatedResource.md
+                - 资源代理对手地址列表 v1: api/rpc/stake-v1/GetDelegatedResourceAccountIndex.md
+            - 资源 Stake 2.0:
+                - 冻结 TRX 获取资源: api/rpc/stake-v2/FreezeBalanceV2.md
+                - 发起解冻申请: api/rpc/stake-v2/UnfreezeBalanceV2.md
+                - 提取已到期的解冻 TRX: api/rpc/stake-v2/WithdrawExpireUnfreeze.md
+                - 取消所有未到期解冻: api/rpc/stake-v2/CancelAllUnfreezeV2.md
+                - 资源代理: api/rpc/stake-v2/DelegateResource.md
+                - 撤销资源代理: api/rpc/stake-v2/UnDelegateResource.md
+                - 资源代理记录 v2: api/rpc/stake-v2/GetDelegatedResourceV2.md
+                - 资源代理对手地址列表 v2: api/rpc/stake-v2/GetDelegatedResourceAccountIndexV2.md
+                - 可代理最大额度: api/rpc/stake-v2/GetCanDelegatedMaxSize.md
+                - 剩余可解冻次数: api/rpc/stake-v2/GetAvailableUnfreezeCount.md
+                - 可提取解冻金额: api/rpc/stake-v2/GetCanWithdrawUnfreezeAmount.md
+            - 节点与工具:
+                - 节点运行状态: api/rpc/node-and-tools/GetNodeInfo.md
+                - 已发现的对等节点: api/rpc/node-and-tools/ListNodes.md
+                - 历史能量单价: api/rpc/node-and-tools/GetEnergyPrices.md
+                - 历史带宽单价: api/rpc/node-and-tools/GetBandwidthPrices.md
+                - 累计销毁 TRX: api/rpc/node-and-tools/GetBurnTrx.md
         - jsonRPC 接口:
             - 概述: api/json-rpc/index.md
             - eth:

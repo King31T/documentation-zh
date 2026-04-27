@@ -1,233 +1,160 @@
-# gRPC API
+# java-tron gRPC API
 
-## 1. 概述
+java-tron 节点对外提供 gRPC 接口。本目录按业务分类列出 82 个常用 gRPC 方法的简要文档。
 
-gRPC 是一个现代、开源、高性能的 RPC 框架，基于 HTTP/2 协议，并使用 Protocol Buffers（Protobuf）进行数据序列化。与传统的 HTTP/1.1 RESTful API 相比，gRPC 提供更高的性能、更低的延迟、更小的数据包、双向流式传输能力，以及强大的代码生成机制，使其成为与区块链节点进行高效稳定交互的理想选择。
+## 服务与默认端口
 
-TRON 提供了一套基于 gRPC 的 API 接口，允许开发者以高性能和强类型的方式与 TRON 节点交互。本文将以 Java 为例，详细说明如何完成基本的 gRPC 调用，从获取 .proto 文件到完成整个过程。
+| 服务 | 默认端口 | 说明 | 源码 |
+|---|---|---|---|
+| `protocol.Wallet` | `50051` | FullNode 全功能服务（含写交易） | `framework/src/main/java/org/tron/core/services/RpcApiService.java` |
+| `protocol.WalletSolidity` | `50061` | 仅返回已固化数据，只读 | `framework/src/main/java/org/tron/core/services/interfaceOnSolidity/RpcApiServiceOnSolidity.java` |
 
-**有关 API 的具体定义，请参阅以下链接：**
-[api/api.proto](https://github.com/tronprotocol/protocol/blob/master/api/api.proto)
+端口可通过节点配置项 `node.rpc.port` / `node.rpc.solidityPort` 覆盖（参见 `framework/src/main/resources/config.conf`）。
 
-!!! note
-    SolidityNode 已废弃。现在 FullNode 支持 SolidityNode 的所有 RPC。新开发者应只部署 FullNode。
+proto 定义位于 `protocol/src/main/protos/api/api.proto`。
 
-大多数 gRPC API 通过 `wallet` 服务访问。部分 API 也支持 `walletsolidity` 服务，该服务仅提供对**已确认链上数据**的访问。每个 API 页面都会说明其支持的服务。
+## 调用方式
 
-## 2. 了解 TRON 的 gRPC 接口和 Protocol Buffers
+gRPC 不使用 URL 路径区分 `wallet` 与 `walletsolidity` —— 二者是两个独立的服务桩，连接到不同端口即可：
 
-TRON 中所有链上操作和数据查询都通过 gRPC 服务公开。这些服务的定义位于 .proto 文件中。**Protocol Buffers** 是一种语言无关、平台无关、可扩展的结构化数据序列化机制，用于定义服务接口和消息结构。
+```text
+# Wallet
+grpc://<host>:50051   protocol.Wallet/<Method>
 
-通过 .proto 文件，您可以：
-
-* **定义服务：** 包含客户端可以调用的方法（RPC）。
-* **定义消息：** 描述请求和响应的数据结构。
-
-gRPC 工具链根据这些 .proto 文件自动生成客户端和服务器代码，其中包含与 TRON 节点通信所需的所有底层逻辑。
-
-## 3. 完整的 gRPC 调用流程
-
-### 3.1 获取 TRON 的 .proto 文件
-
-TRON 官方在 GitHub 仓库中维护所有 .proto 文件，这些文件是生成 gRPC 客户端代码的基础。
-
-1. **访问 TRON Protocol 仓库：**
-   打开 TRON 官方 `protocol` GitHub 仓库：[https://github.com/tronprotocol/protocol](https://github.com/tronprotocol/protocol)
-
-2. **下载 .proto 文件：**
-   您可以在 `core/src/main/proto` 目录下找到核心 .proto 文件，例如：
-
-   * `api/api.proto`：定义主要的 gRPC 服务和方法（如 `Wallet` 服务）。
-   * `core/Tron.proto`：定义 TRON 核心数据结构（如 `Block`、`Transaction`、`Account` 等）。
-   * `core/contract/account_contract.proto`、`core/contract/asset_issue_contract.proto` 等：定义各种系统合约操作的消息结构。
-
-### 3.2 生成 gRPC 客户端代码
-
-获取 .proto 文件后，需要生成 Java 客户端代码。
-
-为避免影响本地其他设置和项目，并简化生成过程，强烈建议在 Java 项目中使用 Maven 或 Gradle 的 Protobuf 插件。
-
-**Maven（`pom.xml`）配置说明：**
-
-在项目的 `pom.xml` 文件中配置必要的依赖项和构建插件。
-
-通常包括用于网络通信的 **`grpc-netty-shaded`**、用于 Protobuf 消息处理的 **`grpc-protobuf`**，以及用于 gRPC 客户端存根的 **`grpc-stub`**。
-
-同时，还需要添加 **Protobuf Java 运行时库**，包括 `protobuf-java` 和 `protobuf-java-util`。此外，还需要配置 **`protobuf-maven-plugin`**，用于自动检测操作系统、指定 Protobuf 编译器和 gRPC Java 插件的 Maven 坐标，并设置 .proto 文件的源目录，以便在构建过程中自动生成 Java 代码。
-
-**代码生成步骤：**
-将从 TRON GitHub 下载的 .proto 文件放入项目配置的源目录（Maven 项目为 `src/main/proto`），然后在项目根目录执行相应的构建命令（Maven 为 `mvn clean install`，Gradle 为 `gradle build`），构建工具的 Protobuf 插件将自动生成所需的 Java gRPC 客户端代码。
-
-**Gradle（`build.gradle`）配置说明：**
-
-Gradle 所需的依赖项与 Maven 基本相同。以下是配置文件示例（请根据实际情况修改版本号）：
-
-```groovy
-dependencies {
-    implementation 'io.github.tronprotocol:trident:0.9.2'
-    
-    implementation 'io.grpc:grpc-netty-shaded:1.64.0'
-    implementation 'io.grpc:grpc-protobuf:1.64.0'
-    implementation 'io.grpc:grpc-stub:1.64.0'
-    implementation 'com.google.protobuf:protobuf-java:3.25.1' 
-}
+# WalletSolidity（只读）
+grpc://<host>:50061   protocol.WalletSolidity/<Method>
 ```
 
-配置完成后，使用 `gradle clean build`。
+每个方法文档包含：
 
-### 3.3 构建 gRPC 客户端并发起调用
+- 方法名（一级标题，PascalCase，与 proto 完全一致）
+- 功能描述
+- 服务支持情况（`Wallet` / `WalletSolidity` / 二者皆支持）
+- 对应 protobuf 签名
 
-代码生成后，可以在 Java 项目中使用这些生成的类来构建 gRPC 客户端，并与 TRON 节点通信。
+## 账户
 
-#### 3.3.1 核心概念
+| 方法 | 描述 |
+|---|---|
+| [GetAccount](account/GetAccount.md) | 查询账户信息 |
+| [GetAccountBalance](account/GetAccountBalance.md) | 按指定区块查询账户 TRX 余额 |
+| [GetAccountNet](account/GetAccountNet.md) | 查询带宽资源使用（已弃用） |
+| [GetAccountResource](account/GetAccountResource.md) | 查询带宽 + 能量 + TronPower 使用 |
+| [CreateAccount2](account/CreateAccount2.md) | 创建新账户的未签名交易 |
+| [UpdateAccount2](account/UpdateAccount2.md) | 修改账户昵称 |
+| [AccountPermissionUpdate](account/AccountPermissionUpdate.md) | 修改账户多签权限 |
 
-* **`ManagedChannel`：** 表示与 gRPC 服务器的连接，管理底层网络连接。
-* **`Stub`：** 从 .proto 文件生成的客户端接口，提供调用 gRPC 服务中定义方法的便捷方式。常见类型包括 `BlockingStub`（阻塞）和 `FutureStub`（异步）。
-* **TRON 节点端点：** TRON 的 gRPC 服务通常运行在 `50051` 端口。访问 TronGrid 公共节点可能需要 API Key。
+## TRC10 通证
 
-#### 3.3.2 调用流程
+| 方法 | 描述 |
+|---|---|
+| [CreateAssetIssue2](asset/CreateAssetIssue2.md) | 发行 TRC10 通证 |
+| [UpdateAsset2](asset/UpdateAsset2.md) | 修改 TRC10 描述/URL/带宽限额 |
+| [TransferAsset2](asset/TransferAsset2.md) | TRC10 通证转账 |
+| [ParticipateAssetIssue2](asset/ParticipateAssetIssue2.md) | 参与 TRC10 募集 |
+| [UnfreezeAsset2](asset/UnfreezeAsset2.md) | 解冻发行方冻结的通证 |
+| [GetAssetIssueById](asset/GetAssetIssueById.md) | 按 token id 查询 TRC10 |
+| [GetAssetIssueByName](asset/GetAssetIssueByName.md) | 按名查询 TRC10 |
+| [GetAssetIssueListByName](asset/GetAssetIssueListByName.md) | 按名查询所有同名 TRC10 |
+| [GetAssetIssueByAccount](asset/GetAssetIssueByAccount.md) | 查询账户发行的 TRC10 |
+| [GetAssetIssueList](asset/GetAssetIssueList.md) | 查询全网 TRC10 |
+| [GetPaginatedAssetIssueList](asset/GetPaginatedAssetIssueList.md) | 分页查询全网 TRC10 |
 
-调用 gRPC 方法的基本流程如下：
+## 区块与交易查询
 
-1. **创建 `ManagedChannel`：** 配置目标 TRON 节点的地址和端口，建立与 gRPC 服务器的连接。
-2. **创建 `Stub`：** 使用从 .proto 文件生成的 `WalletGrpc` 类创建相应的存根实例，例如 `WalletGrpc.newBlockingStub(channel)` 用于阻塞调用。
-3. **附加 API Key（如需）：** 如果使用 TronGrid 等需要 API Key 的公共节点服务，通常需要将 API Key 作为元数据添加到请求头中。
-4. **调用方法：** 使用创建的存根实例调用 TRON gRPC 服务中定义的方法，传入适当的请求消息。
-5. **处理响应：** 接收并解析从 TRON 节点返回的响应消息。
-6. **关闭 `ManagedChannel`：** 应用结束或不再需要连接时，务必关闭 `ManagedChannel` 以释放网络资源。
+| 方法 | 描述 |
+|---|---|
+| [GetNowBlock2](block-and-tx-query/GetNowBlock2.md) | 当前最新区块 |
+| [GetBlock](block-and-tx-query/GetBlock.md) | 按 num/hash 查询区块（统一接口） |
+| [GetBlockByNum2](block-and-tx-query/GetBlockByNum2.md) | 按区块号查询 |
+| [GetBlockById](block-and-tx-query/GetBlockById.md) | 按区块哈希查询 |
+| [GetBlockByLimitNext2](block-and-tx-query/GetBlockByLimitNext2.md) | 区间查询区块 |
+| [GetBlockByLatestNum2](block-and-tx-query/GetBlockByLatestNum2.md) | 最新 N 个区块 |
+| [GetBlockBalanceTrace](block-and-tx-query/GetBlockBalanceTrace.md) | 区块内余额变动追踪 |
+| [GetTransactionCountByBlockNum](block-and-tx-query/GetTransactionCountByBlockNum.md) | 区块交易数 |
+| [GetTransactionById](block-and-tx-query/GetTransactionById.md) | 按 ID 查询交易体 |
+| [GetTransactionInfoById](block-and-tx-query/GetTransactionInfoById.md) | 按 ID 查询交易执行结果 |
+| [GetTransactionInfoByBlockNum](block-and-tx-query/GetTransactionInfoByBlockNum.md) | 区块内所有交易执行结果 |
+| [GetPendingSize](block-and-tx-query/GetPendingSize.md) | pending 池交易数 |
+| [GetTransactionFromPending](block-and-tx-query/GetTransactionFromPending.md) | 从 pending 取交易 |
+| [GetTransactionListFromPending](block-and-tx-query/GetTransactionListFromPending.md) | pending 中所有交易 ID |
 
-**Trident** 高度封装了上述 gRPC 交互的所有复杂步骤，尤其是**交易构建、签名和广播**，使开发者无需处理这些底层细节。以下是 Trident 中的相关源码实现（仅展示 `ApiWrapper` 类的部分代码，完整代码请参阅：[ApiWrapper.java](https://github.com/tronprotocol/trident/blob/main/core/src/main/java/org/tron/trident/core/ApiWrapper.java)）：
+## 交易构造与广播
 
-```java
-package org.tron.trident.core;
+| 方法 | 描述 |
+|---|---|
+| [CreateTransaction2](tx-build-and-broadcast/CreateTransaction2.md) | 创建 TRX 转账交易 |
+| [GetTransactionSignWeight](tx-build-and-broadcast/GetTransactionSignWeight.md) | 多签交易权重校验 |
+| [GetTransactionApprovedList](tx-build-and-broadcast/GetTransactionApprovedList.md) | 多签交易已签名地址 |
+| [BroadcastTransaction](tx-build-and-broadcast/BroadcastTransaction.md) | 广播已签名交易 |
 
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
-import io.grpc.ClientInterceptor;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Metadata;
-import io.grpc.stub.MetadataUtils;
+## 智能合约
 
-import org.tron.trident.api.WalletGrpc;
-import org.tron.trident.api.WalletSolidityGrpc;
-import org.tron.trident.core.key.KeyPair;
-import org.tron.trident.proto.Chain.Transaction;
-import org.tron.trident.proto.Contract.TransferContract;
-import org.tron.trident.proto.Response.TransactionExtention;
+| 方法 | 描述 |
+|---|---|
+| [DeployContract](smart-contract/DeployContract.md) | 部署合约 |
+| [TriggerContract](smart-contract/TriggerContract.md) | 触发合约（写交易） |
+| [TriggerConstantContract](smart-contract/TriggerConstantContract.md) | 只读调用合约 |
+| [EstimateEnergy](smart-contract/EstimateEnergy.md) | 预估调用能量 |
+| [GetContract](smart-contract/GetContract.md) | 合约元信息 |
+| [GetContractInfo](smart-contract/GetContractInfo.md) | 合约完整运行时信息 |
+| [ClearContractABI](smart-contract/ClearContractABI.md) | 清空合约 ABI |
+| [UpdateSetting](smart-contract/UpdateSetting.md) | 修改合约用户资源比例 |
+| [UpdateEnergyLimit](smart-contract/UpdateEnergyLimit.md) | 修改合约 origin 能量上限 |
 
-public class ApiWrapper implements Api {
+## 超级代表与治理
 
-    public final WalletGrpc.WalletBlockingStub blockingStub;
-    public final WalletSolidityGrpc.WalletSolidityBlockingStub blockingStubSolidity;
-    public final KeyPair keyPair;
-    public final ManagedChannel channel;
-    public final ManagedChannel channelSolidity;
+| 方法 | 描述 |
+|---|---|
+| [CreateWitness2](witness-and-governance/CreateWitness2.md) | 申请 SR 候选人 |
+| [UpdateWitness2](witness-and-governance/UpdateWitness2.md) | 修改 SR URL |
+| [ListWitnesses](witness-and-governance/ListWitnesses.md) | 所有 SR 候选人 |
+| [GetPaginatedNowWitnessList](witness-and-governance/GetPaginatedNowWitnessList.md) | 分页获取当前 SR |
+| [VoteWitnessAccount2](witness-and-governance/VoteWitnessAccount2.md) | 给 SR 投票 |
+| [GetBrokerageInfo](witness-and-governance/GetBrokerageInfo.md) | SR 分红比例 |
+| [UpdateBrokerage](witness-and-governance/UpdateBrokerage.md) | SR 修改分红比例 |
+| [GetRewardInfo](witness-and-governance/GetRewardInfo.md) | 账户可领取分红 |
+| [WithdrawBalance2](witness-and-governance/WithdrawBalance2.md) | 提取出块/分红奖励 |
+| [ProposalCreate](witness-and-governance/ProposalCreate.md) | 创建链参数提案 |
+| [ProposalApprove](witness-and-governance/ProposalApprove.md) | SR 投票提案 |
+| [ProposalDelete](witness-and-governance/ProposalDelete.md) | 撤销自己的提案 |
+| [ListProposals](witness-and-governance/ListProposals.md) | 所有提案列表 |
+| [GetProposalById](witness-and-governance/GetProposalById.md) | 按 ID 查询提案 |
+| [GetPaginatedProposalList](witness-and-governance/GetPaginatedProposalList.md) | 分页提案列表 |
+| [GetChainParameters](witness-and-governance/GetChainParameters.md) | 链参数当前值 |
+| [GetNextMaintenanceTime](witness-and-governance/GetNextMaintenanceTime.md) | 下次维护期开始时间 |
 
-    public ApiWrapper(
-        String grpcEndpoint,
-        String grpcEndpointSolidity,
-        String hexPrivateKey,
-        String apiKey
-    ) {
-        channel = ManagedChannelBuilder.forTarget(grpcEndpoint).usePlaintext().build();
-        channelSolidity = ManagedChannelBuilder.forTarget(grpcEndpointSolidity)
-            .usePlaintext()
-            .build();
+## 资源 Stake 1.0（已弃用）
 
-        Metadata header = new Metadata();
-        Metadata.Key<String> key = Metadata.Key.of(
-            "TRON-PRO-API-KEY",
-            Metadata.ASCII_STRING_MARSHALLER
-        );
-        header.put(key, apiKey);
+| 方法 | 描述 |
+|---|---|
+| [FreezeBalance2](stake-v1/FreezeBalance2.md) | 冻结 TRX（已弃用） |
+| [UnfreezeBalance2](stake-v1/UnfreezeBalance2.md) | 解冻（已弃用） |
+| [GetDelegatedResource](stake-v1/GetDelegatedResource.md) | 查询资源代理记录（v1） |
+| [GetDelegatedResourceAccountIndex](stake-v1/GetDelegatedResourceAccountIndex.md) | 资源代理对手地址列表（v1） |
 
-        blockingStub = WalletGrpc.newBlockingStub(channel).withInterceptors(
-            MetadataUtils.newAttachHeadersInterceptor(header)
-        );
-        blockingStubSolidity = WalletSolidityGrpc.newBlockingStub(channelSolidity).withInterceptors(
-            MetadataUtils.newAttachHeadersInterceptor(header)
-        );
+## 资源 Stake 2.0
 
-        keyPair = new KeyPair(hexPrivateKey);
-    }
+| 方法 | 描述 |
+|---|---|
+| [FreezeBalanceV2](stake-v2/FreezeBalanceV2.md) | 冻结 TRX 获取资源 |
+| [UnfreezeBalanceV2](stake-v2/UnfreezeBalanceV2.md) | 发起解冻申请 |
+| [WithdrawExpireUnfreeze](stake-v2/WithdrawExpireUnfreeze.md) | 提取已到期的解冻 TRX |
+| [CancelAllUnfreezeV2](stake-v2/CancelAllUnfreezeV2.md) | 取消所有未到期解冻 |
+| [DelegateResource](stake-v2/DelegateResource.md) | 资源代理 |
+| [UnDelegateResource](stake-v2/UnDelegateResource.md) | 撤销资源代理 |
+| [GetDelegatedResourceV2](stake-v2/GetDelegatedResourceV2.md) | 资源代理记录（v2） |
+| [GetDelegatedResourceAccountIndexV2](stake-v2/GetDelegatedResourceAccountIndexV2.md) | 资源代理对手地址列表（v2） |
+| [GetCanDelegatedMaxSize](stake-v2/GetCanDelegatedMaxSize.md) | 可代理最大额度 |
+| [GetAvailableUnfreezeCount](stake-v2/GetAvailableUnfreezeCount.md) | 剩余可解冻次数 |
+| [GetCanWithdrawUnfreezeAmount](stake-v2/GetCanWithdrawUnfreezeAmount.md) | 可提取解冻金额 |
 
-    @Override
-    public TransactionExtention transfer(String fromAddress, String toAddress, long amount)
-        throws IllegalException {
-        ByteString rawFrom = parseAddress(fromAddress);
-        ByteString rawTo = parseAddress(toAddress);
+## 节点与工具
 
-        TransferContract transferContract = TransferContract.newBuilder()
-            .setOwnerAddress(rawFrom)
-            .setToAddress(rawTo)
-            .setAmount(amount)
-            .build();
-
-        return createTransactionExtention(
-            transferContract,
-            Transaction.Contract.ContractType.TransferContract
-        );
-    }
-
-    @Override
-    public Transaction signTransaction(TransactionExtention txnExt, KeyPair keyPair) {
-        byte[] txId = txnExt.getTxid().toByteArray();
-        byte[] signature = KeyPair.signTransaction(txId, keyPair);
-        return txnExt
-            .getTransaction()
-            .toBuilder()
-            .addSignature(ByteString.copyFrom(signature))
-            .build();
-    }
-
-    @Override
-    public String broadcastTransaction(Transaction txn) throws RuntimeException {
-        Response.TransactionReturn ret = blockingStub.broadcastTransaction(txn);
-        if (!ret.getResult()) {
-            String errorMessage = new String(ret.getMessage().toByteArray());
-            String message = resolveResultCode(ret.getCodeValue()) + ", " + errorMessage;
-            throw new RuntimeException(message);
-        } else {
-            byte[] txId = calculateTransactionHash(txn);
-            return ByteArray.toHexString(txId);
-        }
-    }
-
-    public void close() {
-        channel.shutdown();
-        channelSolidity.shutdown();
-    }
-}
-```
-
-## 4. 使用 Trident-java
-
-在实际开发中，手动调用 gRPC 接口可能相当繁琐。Trident 是 TRON 官方提供的 Java SDK，已封装大部分 gRPC 调用工作，包括客户端构建、消息序列化/反序列化，以及交易签名和广播等复杂操作。如需更便捷地与 TRON 交互，可直接参考或使用 Trident 进行 gRPC 调用。
-
-## 5. API 分类
-
-1. [账户管理](account-management/getaccount.md) — 账户查询、余额和多签验证
-2. [资产与代币](assets-and-tokens/createassetissue.md) — TRC-10 资产发行、转账和查询
-3. [区块操作](block-operations/getblock.md) — 按编号、ID 和范围查询区块
-4. [网络信息](network-information/getbandwidthprices.md) — 节点信息、链参数和价格
-5. [资源管理](resource-management/cancelallunfreezev2.md) — 能量、带宽、质押和委托
-6. [智能合约](smart-contracts/clearcontractabi.md) — 合约部署、触发和查询
-7. [交易操作](transaction-operations/getpendingsize.md) — 交易查询和待处理池
-8. [钱包操作](wallet-operations/accountpermissionupdate.md) — 账户创建、转账和广播
-9. [超级代表与治理](witness-and-governance/createwitness.md) — 见证人管理、投票、提案和奖励
-
-## 6. 相关参考和文档
-
-* **TRON Protocol Buffers 定义：**
-  [https://github.com/tronprotocol/protocol](https://github.com/tronprotocol/protocol)
-* **gRPC Java 官方文档：**
-  [https://grpc.io/docs/languages/java/](https://grpc.io/docs/languages/java/)
-* **Protocol Buffers 官方文档：**
-  [https://developers.google.com/protocol-buffers](https://developers.google.com/protocol-buffers)
-* **TronGrid 官方网站（获取 API Key）：**
-  [https://www.trongrid.io/](https://www.trongrid.io/)
-* **Trident GitHub 仓库：**
-  [https://github.com/tronprotocol/trident/](https://github.com/tronprotocol/trident/)
-* **Trident 文档：**
-  [https://tronprotocol.github.io/trident/](https://tronprotocol.github.io/trident/)
+| 方法 | 描述 |
+|---|---|
+| [GetNodeInfo](node-and-tools/GetNodeInfo.md) | 节点运行状态 |
+| [ListNodes](node-and-tools/ListNodes.md) | 已发现的对等节点 |
+| [GetEnergyPrices](node-and-tools/GetEnergyPrices.md) | 历史能量单价 |
+| [GetBandwidthPrices](node-and-tools/GetBandwidthPrices.md) | 历史带宽单价 |
+| [GetBurnTrx](node-and-tools/GetBurnTrx.md) | 累计销毁 TRX |

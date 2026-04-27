@@ -1,8 +1,8 @@
-# listWitnesses
+# ListWitnesses
 
-**支持的 API**：`wallet` `walletsolidity`
+获取所有 SR 候选人列表。
 
-TRON API 方法，检索 TRON 网络上所有见证人（验证者）的完整列表。见证人负责在 TRON 委托权益证明（DPoS）共识机制中进行区块生产和网络治理。
+- 服务：同时支持 `Wallet` 和 `WalletSolidity`
 
 ```protobuf
 rpc ListWitnesses (EmptyMessage) returns (WitnessList) {}

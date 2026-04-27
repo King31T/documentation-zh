@@ -1,8 +1,8 @@
-# getPaginatedProposalList
+# GetPaginatedProposalList
 
-**支持的 API**：`wallet`
+分页获取提案列表。
 
-TRON API 方法，支持分页检索治理提案，允许高效浏览大量提案列表。
+- 服务：仅支持 `Wallet`
 
 ```protobuf
 rpc GetPaginatedProposalList (PaginatedMessage) returns (ProposalList) {}

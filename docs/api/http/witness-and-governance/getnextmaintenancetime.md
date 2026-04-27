@@ -1,46 +1,28 @@
-# getnextmaintenancetime
+# /wallet/getnextmaintenancetime
 
-TRON API 方法，检索下一个计划维护窗口的时间戳。维护期每 6 小时发生一次，在此期间见证人选举、奖励分配和其他网络治理更新将生效。
+获取下次 SR 维护期开始时间。
 
-## HTTP 请求
+- 源码：`framework/src/main/java/org/tron/core/services/http/GetNextMaintenanceTimeServlet.java`
+- Method：`GET` / `POST`
 
-`POST /wallet/getnextmaintenancetime`
+## 请求参数
 
-## 支持的路径
+无（仅 `visible`）。
 
-- `/wallet/getnextmaintenancetime`
+示例：
 
-## 参数
-
-该方法不需要任何参数。
-
-## 返回值
-
-- num — 下一个维护窗口的时间戳（Unix 纪元以来的毫秒数）
-
-## 示例
-
-### 请求
-
-```shell
-curl --request POST \
-  --url https://api.shasta.trongrid.io/wallet/getnextmaintenancetime \
-  --header 'Content-Type: application/json' \
-  --data '{}'
+```bash
+curl http://127.0.0.1:8090/wallet/getnextmaintenancetime
 ```
 
-### 返回
+## 响应
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `num` | int64 | 下次维护时间（毫秒时间戳） |
+
+响应示例：
 
 ```json
-{
-  "num": 1704070800000
-}
+{ "num": 1700000000000 }
 ```
-
-## 使用场景
-
-- 在维护期前规划见证人操作和投票变更。
-- 安排投票决策，使其在下一个选举周期生效。
-- 为自动化系统构建维护时间表追踪功能。
-- 协调网络治理活动与维护窗口。
-- 计算见证人选举结果最终确定前的剩余时间。

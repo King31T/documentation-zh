@@ -1,64 +1,43 @@
-# listproposals
+# /wallet/listproposals
 
-TRON API 方法，检索 TRON 网络上所有治理提案，提供当前和历史提案的全面视图。
+获取所有提案列表。
 
-## HTTP 请求
+- 源码：`framework/src/main/java/org/tron/core/services/http/ListProposalsServlet.java`
+- Method：`GET` / `POST`
+- Response：`api.ProposalList`
 
-`POST /wallet/listproposals`
+## 请求参数
 
-## 支持的路径
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `visible` | bool | 否 | 地址格式 |
 
-- `/wallet/listproposals`
+示例：
 
-## 参数
-
-该方法不需要任何参数。
-
-## 返回值
-
-- proposals — 提案对象数组，每个对象包含：
-  - proposal_id — 提案的唯一标识符
-  - proposer_address — 创建提案的超级代表地址
-  - parameters — 包含提案参数变更的对象
-  - expiration_time — 提案过期时间戳
-  - create_time — 提案创建时间戳
-  - approvals — 已批准该提案的超级代表数组
-  - state — 提案当前状态（PENDING、DISAPPROVED、APPROVED、CANCELED）
-
-## 示例
-
-### 请求
-
-```shell
-curl --request POST \
-  --url https://api.shasta.trongrid.io/wallet/listproposals \
-  --header 'Content-Type: application/json' \
-  --data '{}'
+```bash
+curl http://127.0.0.1:8090/wallet/listproposals
 ```
 
-### 返回
+## 响应
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `proposals` | repeated Proposal | 提案列表（结构同 [`/wallet/getproposalbyid`](getproposalbyid.md)） |
+
+响应示例：
 
 ```json
 {
   "proposals": [
     {
-      "proposal_id": 123,
-      "proposer_address": "<string>",
-      "parameters": {},
-      "expiration_time": 123,
-      "create_time": 123,
-      "approvals": [
-        "<string>"
-      ],
-      "state": "PENDING"
+      "proposal_id": 1,
+      "proposer_address": "TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF",
+      "parameters": { "0": 86400000 },
+      "expiration_time": 1700000000000,
+      "create_time": 1600000000000,
+      "approvals": ["TKSXDA8HfE9E1y39RczVQ1ZascUEtaSToF"],
+      "state": "APPROVED"
     }
   ]
 }
 ```
-
-## 使用场景
-
-- 在管理界面中显示所有治理提案。
-- 构建全面的治理仪表板。
-- 分析提案趋势和投票模式。
-- 创建提案监控和通知系统。

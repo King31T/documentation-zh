@@ -1,8 +1,8 @@
-# proposalApprove
+# ProposalApprove
 
-**支持的 API**：`wallet`
+SR 对提案投票（赞成/取消赞成）。
 
-TRON API 方法，允许超级代表批准治理提案。提案需要超级代表的多数批准才能执行。
+- 服务：仅支持 `Wallet`
 
 ```protobuf
 rpc ProposalApprove (ProposalApproveContract) returns (TransactionExtention) {}
