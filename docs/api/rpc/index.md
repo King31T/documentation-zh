@@ -124,14 +124,18 @@ grpc://<host>:50061   protocol.WalletSolidity/<Method>
 | [GetChainParameters](witness-and-governance/GetChainParameters.md) | 链参数当前值 |
 | [GetNextMaintenanceTime](witness-and-governance/GetNextMaintenanceTime.md) | 下次维护期开始时间 |
 
-## 资源 Stake 1.0（已弃用）
+## 资源 Stake 1.0（仅保留解冻与查询）
+
+提案 #70 `UNFREEZE_DELAY_DAYS` 通过后（主网已生效），新的 V1 冻结会被链拒绝；解冻与查询方法保留，用于处理存量仓位。
+
+> 文件名末尾的 `2`（如 `FreezeBalance2`）是 proto 历史命名后缀（返回 `TransactionExtention` 的 V1 方法），与 Stake 2.0 的 `FreezeBalanceV2` 不是同一个方法。
 
 | 方法 | 描述 |
 |---|---|
-| [FreezeBalance2](stake-v1/FreezeBalance2.md) | 冻结 TRX（已弃用） |
-| [UnfreezeBalance2](stake-v1/UnfreezeBalance2.md) | 解冻（已弃用） |
-| [GetDelegatedResource](stake-v1/GetDelegatedResource.md) | 查询资源代理记录（v1） |
-| [GetDelegatedResourceAccountIndex](stake-v1/GetDelegatedResourceAccountIndex.md) | 资源代理对手地址列表（v1） |
+| [FreezeBalance2](stake-v1/FreezeBalance2.md) | 冻结 TRX（**链已拒绝新请求**） |
+| [UnfreezeBalance2](stake-v1/UnfreezeBalance2.md) | 解冻（仍可用于存量解冻） |
+| [GetDelegatedResource](stake-v1/GetDelegatedResource.md) | 查询资源代理记录（v1，存量查询） |
+| [GetDelegatedResourceAccountIndex](stake-v1/GetDelegatedResourceAccountIndex.md) | 资源代理对手地址列表（v1，存量查询） |
 
 ## 资源 Stake 2.0
 

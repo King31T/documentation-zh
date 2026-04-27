@@ -1,6 +1,6 @@
 # /wallet/freezebalance
 
-> **已弃用**：Stake 1.0 接口。新业务请使用 [`/wallet/freezebalancev2`](../stake-v2/freezebalancev2.md)。
+> **链上已禁用**：提案 #70 `UNFREEZE_DELAY_DAYS` 通过后（主网已生效），`FreezeBalanceActuator.validate()` 会直接抛出 `freeze v2 is open, old freeze is closed`，新请求一律失败。请改用 [`/wallet/freezebalancev2`](../stake-v2/freezebalancev2.md)。
 
 冻结 TRX 获取带宽或能量，可代理给他人。冻结期最少 3 天。
 

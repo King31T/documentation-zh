@@ -1,6 +1,6 @@
 # /wallet/getdelegatedresourceaccountindex
 
-> **已弃用**：Stake 1.0 索引。新业务请使用 [`/wallet/getdelegatedresourceaccountindexv2`](../stake-v2/getdelegatedresourceaccountindexv2.md)。
+> **存量查询**：仅返回 Stake 1.0 存储的代理对手地址索引，对 V2 数据无效。源码无版本网关，可在 V2 启用后继续调用以查询历史 V1 仓位。新业务请使用 [`/wallet/getdelegatedresourceaccountindexv2`](../stake-v2/getdelegatedresourceaccountindexv2.md)。
 
 查询账户作为出借方/接收方的代理对手地址列表（Stake 1.0）。
 
