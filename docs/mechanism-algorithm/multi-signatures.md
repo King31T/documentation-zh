@@ -142,7 +142,7 @@ enum ContractType {
 | 41 | ExchangeCreateContract | ExchangeContract.ExchangeCreateContract | ExchangeCreateActuator | ✅ 启用 | 创建 Bancor 交易对, 为两种资产初始注入流动性 |
 | 42 | ExchangeInjectContract | ExchangeContract.ExchangeInjectContract | ExchangeInjectActuator | ✅ 启用 | 向已有交易对继续注入流动性, 按 Bancor 算法扣减双方资产 |
 | 43 | ExchangeWithdrawContract | ExchangeContract.ExchangeWithdrawContract | ExchangeWithdrawActuator | ✅ 启用 | 交易对创建人按比例赎回交易对中双方资产 |
-| 44 | ExchangeTransactionContract | ExchangeContract.ExchangeTransactionContract | ExchangeTransactionActuator | 🚫 禁用(v4.8.0.1 分叉后由 `Manager.java` 硬编码拒绝,PR [#6507](https://github.com/tronprotocol/java-tron/pull/6507),不走链参数) | 通过 Bancor 交易对进行资产兑换 |
+| 44 | ExchangeTransactionContract | ExchangeContract.ExchangeTransactionContract | ExchangeTransactionActuator | 🚫 禁用 | 通过 Bancor 交易对进行资产兑换 |
 | 45 | UpdateEnergyLimitContract | SmartContractOuterClass.UpdateEnergyLimitContract | UpdateEnergyLimitContractActuator | ✅ 启用 | 合约所有者更新合约的 origin_energy_limit(合约所有者愿意为每一笔合约调用交易承担的能量消耗上限) |
 | 46 | AccountPermissionUpdateContract | AccountContract.AccountPermissionUpdateContract | AccountPermissionUpdateActuator | ✅ 启用 | 更新账户权限:owner/witness/active |
 | 48 | ClearABIContract | SmartContractOuterClass.ClearABIContract | ClearABIContractActuator | ✅ 启用 | 合约所有者清空合约 ABI |
